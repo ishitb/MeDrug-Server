@@ -1,0 +1,7 @@
+You need Python 3.6 or higher
+First run "./dbmsenv/Scripts/activate.bat" in cmd with quotes
+Then cd into dbmsback
+and pip install the following
+pip install django==3.0.4
+pip install djangorestframework==3.11.0
+pip install Pillow==7.0.0
