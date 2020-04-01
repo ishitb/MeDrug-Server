@@ -12,7 +12,7 @@ python manage.py startapp CoronaNews
 # Serialization
 before sending data to clint we need to convert it to json
 python manage.py shell
-        >>>from CoronaNews.models import Article
+        >>>from CoronaNews.models import Article <br>
         >>> from CoronaNews.serializers import ArticleSerializer
         >>> from rest_framework.renderers import JSONRenderer
         >>> from  rest_framework.renderers import JSONRenderer
