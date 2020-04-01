@@ -1,3 +1,4 @@
+# General Workflow
 manage.py -we will be able to start a web server and helps making apps
 settings.py contains databases and the basic templates
 python manage.py migrate will gives us a default database
@@ -5,7 +6,7 @@ manage.py runserver will deploy the server , we have to enter the IP address on 
 Django admin helps modifying database easily
 manage.py createsuperuser gives you the admin access ip/admin username Meghaa
 We can add more admins after going on the dashboard
-#Apps in Django
+# Apps in Django
 ## How to create apps in Django?
 python manage.py startapp CoronaNews
 # Serialization
