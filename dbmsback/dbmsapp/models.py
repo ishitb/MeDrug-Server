@@ -3,17 +3,23 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.utils import timezone
+from django.db.models.signals import pre_save
+
+
 
 # Create your models here.
 
 class Pharmacy(models.Model) :
     category = models.CharField(max_length=25)
-
+   
     def __str__(self) :
         return self.category
 
+
+
 class Medicines(models.Model) :
     category = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
+    cat = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
     quantity = models.IntegerField()
     price = models.FloatField()

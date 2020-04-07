@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import csv,io
+from django.contrib import messages
 from .models import Medicines, Pharmacy, CustomUser
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
@@ -61,6 +63,8 @@ class MedicineViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cre
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
 @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
+
+
 def Register(request, format=None):
     email = request.data.get('email')
     password = request.data.get('password')
@@ -86,6 +90,7 @@ def Register(request, format=None):
 @api_view(["POST"])
 @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
 @permission_classes((AllowAny,))
+
 def Login(request):
     email = request.data.get("email")
     password = request.data.get("password")
@@ -104,3 +109,32 @@ def Login(request):
     #     'snu_id': logged_in_user.get('snu_id')
     # }})
     return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
+
+
+def contact_upload(request):
+    template='contact_upload.html'
+
+    prompt={
+        'order':'Order of the CSV should be category,name,quantity,price'
+    }
+    if request.method =="GET":
+        return render(request,template,prompt)
+
+    csv_file=request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request,'This is not a csv file')
+    
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string,delimiter=',',quotechar="|"):
+        _, created = Medicines.objects.update_or_create(
+            cat=column[0],
+            name=column[1],
+            quantity=column[2],
+            price=column[3]
+        )
+    context = {}
+
+    return render(request,template,context)
+
