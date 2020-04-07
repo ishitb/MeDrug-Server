@@ -128,11 +128,23 @@ def contact_upload(request):
     io_string = io.StringIO(data_set)
     next(io_string)
     for column in csv.reader(io_string,delimiter=',',quotechar="|"):
-        _, created = Medicines.objects.update_or_create(
-            cat=column[0],
-            name=column[1],
-            quantity=column[2],
-            price=column[3]
+        # _, created = Medicines.objects.update_or_create(
+        #     category=column[0],
+        #     name=column[1],
+        #     quantity=column[2],
+        #     price=column[3],
+        #     image=column[4]
+        # )
+        category = column[0]
+        name = column[1]
+        quantity = column[2]
+        price = column[3]
+        print(type(quantity))
+        Medicines.objects.update_or_create(
+            name = name,
+            quantity = quantity,
+            price = price,
+            category_id = category
         )
     context = {}
 

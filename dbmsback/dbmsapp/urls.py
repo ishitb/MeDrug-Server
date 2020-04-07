@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import *
+from .views import MedicineViewSet, PharmacyViewSet, Register, Login, contact_upload
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()

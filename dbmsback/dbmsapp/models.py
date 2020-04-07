@@ -19,11 +19,10 @@ class Pharmacy(models.Model) :
 
 class Medicines(models.Model) :
     category = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
-    cat = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
     quantity = models.IntegerField()
     price = models.FloatField()
-    image = models.ImageField()
+    image = models.ImageField(null=True)
 
     def __str__(self) :
         return self.name

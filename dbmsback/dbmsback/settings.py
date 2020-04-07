@@ -104,13 +104,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework.renderers.AdminRenderer',
-        'rest_framework.renderers.JSONRenderer',
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': [
+#         'rest_framework.renderers.BrowsableAPIRenderer',
+#         'rest_framework.renderers.AdminRenderer',
+#         'rest_framework.renderers.JSONRenderer',
+#     ]
+# }
 
 
 # Internationalization
