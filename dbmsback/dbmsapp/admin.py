@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import Medicines, Pharmacy, CustomUser
+from .models import Medicines, Pharmacy, CustomUser, Doctor
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
+
+class DoctorAdmin(admin.ModelAdmin) :
+    search_fields = ['name', 'speciality']
+    list_display = ('name', 'speciality', 'phone')
 
 class PharmacyAdmin(admin.ModelAdmin) :
     search_fields = ['category']
@@ -31,3 +35,4 @@ class CustomUserAdmin(UserAdmin) :
 admin.site.register(Pharmacy, PharmacyAdmin)
 admin.site.register(Medicines, MedicinesAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Doctor, DoctorAdmin)

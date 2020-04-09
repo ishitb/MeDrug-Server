@@ -9,6 +9,16 @@ from django.db.models.signals import pre_save
 
 # Create your models here.
 
+class Doctor(models.Model) :
+    name = models.CharField(max_length=50)
+    phone = models.IntegerField(null=True)
+    speciality = models.CharField(max_length=25, default="General Physician")
+    picture = models.ImageField(null=True)
+    details = models.CharField(max_length=150)
+
+    def __str__(self) :
+        return self.name    
+
 class Pharmacy(models.Model) :
     category = models.CharField(max_length=25)
    

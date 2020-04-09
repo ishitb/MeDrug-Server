@@ -1,11 +1,11 @@
 from django.shortcuts import render
 import csv,io
 from django.contrib import messages
-from .models import Medicines, Pharmacy, CustomUser
+from .models import Medicines, Pharmacy, CustomUser, Doctor
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import MedicineSerializer, PharmacySerializer
+from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
@@ -59,6 +59,10 @@ class PharmacyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cre
 class MedicineViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin) :
     serializer_class = MedicineSerializer
     queryset = Medicines.objects.all()
+
+class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+    serializer_class = DoctorSerializer
+    queryset = Doctor.objects.all()
 
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
@@ -139,7 +143,6 @@ def contact_upload(request):
         name = column[1]
         quantity = column[2]
         price = column[3]
-        print(type(quantity))
         Medicines.objects.update_or_create(
             name = name,
             quantity = quantity,
