@@ -17,14 +17,20 @@ class Doctor(models.Model) :
     details = models.CharField(max_length=150)
 
     def __str__(self) :
-        return self.name    
+        return self.name  
+
+class DoctorSchedule(models.Model) :
+    time = models.TimeField()
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+
+    def __str__(self) :
+        return str(self.time)  
 
 class Pharmacy(models.Model) :
     category = models.CharField(max_length=25)
    
     def __str__(self) :
         return self.category
-
 
 
 class Medicines(models.Model) :
@@ -42,6 +48,8 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+
+
     def create_user(self, email, password, **extra_fields):
         """
         Create and save a User with the given email and password.

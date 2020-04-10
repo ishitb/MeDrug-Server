@@ -1,11 +1,11 @@
 from django.shortcuts import render
 import csv,io
 from django.contrib import messages
-from .models import Medicines, Pharmacy, CustomUser, Doctor
+from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer
+from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
@@ -52,6 +52,8 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer, AdminRe
 #         article = get_object_or_404(queryset, pk=pk)
 #         article.delete()
 #         return Response(status = status.HTTP_202_ACCEPTED)
+
+
 class PharmacyViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin) :
     serializer_class = PharmacySerializer
     queryset = Pharmacy.objects.all()
@@ -63,6 +65,10 @@ class MedicineViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cre
 class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
+
+class ScheduleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+    serializer_class = ScheduleSerializer
+    queryset = DoctorSchedule.objects.all()
 
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
@@ -78,7 +84,13 @@ def Register(request, format=None):
     if CustomUser.objects.filter(email=email).exists() :
         return Response({'status': 'User already exists'})
     
+    if snu_id == 'bs001' :
+        # user = CustomUser.objects.create_superuser(email==email, password=password)
+        # print("Creating Super User")
+        print(snu_id)
+    # else :
     user = CustomUser.objects.create_user(email=email, password=password)
+    
     user.first_name = first_name
     user.last_name = last_name
     user.snu_id = snu_id
