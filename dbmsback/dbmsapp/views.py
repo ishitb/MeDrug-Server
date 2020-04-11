@@ -165,3 +165,64 @@ def contact_upload(request):
 
     return render(request,template,context)
 
+def DoctorInfo(request):
+    template='doctor_info.html'
+
+    prompt={
+        'order':'Order of the CSV should be Name, Phone ,Speciality,Picture,details'
+    }
+    if request.method =="GET":
+        return render(request,template,prompt)
+
+    csv_file=request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request,'This is not a csv file')
+    
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string,delimiter=',',quotechar="|"):
+        name = column[0]
+        phone = column[1]
+        speciality = column[2]
+        picture = column[3]
+        details = details[4]
+
+        Doctor.objects.update_or_create(
+            name = name,
+            phone = phone,
+            speciality = speciality,
+            picture = picture,
+            details = details
+        )
+    context = {}
+
+    return render(request,template,context)
+
+def DoctorTimings(request):
+    template='doctor_timings.html'
+
+    prompt={
+        'order':'Order of the CSV should be Time ,Doctor Name'
+    }
+    if request.method =="GET":
+        return render(request,template,prompt)
+
+    csv_file=request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request,'This is not a csv file')
+    
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string,delimiter=',',quotechar="|"):
+        time = column[0]
+        doctor = column[1]
+      
+        DoctorSchedule.objects.update_or_create(
+            time = time,
+            doctor = doctor,
+        )
+    context = {}
+
+    return render(request,template,context)
