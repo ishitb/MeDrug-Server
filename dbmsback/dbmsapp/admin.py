@@ -22,7 +22,7 @@ def superUser(ModelAdmin, request, queryset) :
     '''
     Create exisiting user to superuser
     '''
-    queryset.update(super=True)
+    queryset.update(is_superuser=True)
 
 class CustomUserAdmin(UserAdmin) :
     model = UserAdmin

@@ -84,11 +84,6 @@ def Register(request, format=None):
     if CustomUser.objects.filter(email=email).exists() :
         return Response({'status': 'User already exists'})
     
-    if snu_id == 'bs001' :
-        # user = CustomUser.objects.create_superuser(email==email, password=password)
-        # print("Creating Super User")
-        print(snu_id)
-    # else :
     user = CustomUser.objects.create_user(email=email, password=password)
     
     user.first_name = first_name
