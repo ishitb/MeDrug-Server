@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import MedicineViewSet, PharmacyViewSet, Register, Login, contact_upload, DoctorViewSet, ScheduleViewSet
+from .views import MedicineViewSet, PharmacyViewSet, Register, Login, contact_upload, DoctorViewSet, ScheduleViewSet,DoctorInfo,DoctorTimings
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -12,5 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('register/', Register),
     path('login/', Login), 
-    path('upload/',contact_upload)  
+    path('upload/',contact_upload),
+    path('info/',DoctorInfo),
+    path('timings/',DoctorTimings)
 ]
