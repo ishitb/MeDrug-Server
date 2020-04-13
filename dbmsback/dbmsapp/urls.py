@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register('pharmacy', PharmacyViewSet, basename="Pharmacy Categories")
 router.register('medicines', MedicineViewSet, basename="Medicines")
 router.register('doctors', DoctorViewSet, basename="Doctors")
-router.register('schedule', ScheduleViewSet, basename="Timeings for Doctors")
+router.register('schedule', ScheduleViewSet, basename="Timings for Doctors")
 
 urlpatterns = [
     path('', include(router.urls)),

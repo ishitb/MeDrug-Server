@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+    {% block body_block %}
+
+        <h1>
+            UPLOAD NEW MEDICINES
+        </h1>
+
+        {% if messages %}
+            {% for messages in messages %}
+                <div>
+                    <strong>{{message|safe}}</strong>
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="details">
+            {{order}}.
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input">
+                <label>Upload csv file</label>
+                <button> UPLOAD A FILE </button>
+                <input type="file">
+            </div>
+            <button type="submit">UPLOAD</button>
+        </form>
+        {% endif %}
+    {% endblock %}

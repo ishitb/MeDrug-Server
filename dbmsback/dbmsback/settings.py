@@ -59,7 +59,7 @@ ROOT_URLCONF = 'dbmsback.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['dbmsapp/templates/dbmsapp'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

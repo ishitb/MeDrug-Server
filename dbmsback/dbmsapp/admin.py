@@ -9,7 +9,8 @@ class DoctorAdmin(admin.ModelAdmin) :
     list_display = ('name', 'id', 'speciality', 'phone')
 
 class ScheduleAdmin(admin.ModelAdmin) :
-    list_display = ('time', 'doctor', 'doctor_id')
+    list_display = ('time', 'doctor',)
+    search_fields = ('doctor__name',)
 
 class PharmacyAdmin(admin.ModelAdmin) :
     search_fields = ['category']
@@ -23,6 +24,7 @@ def superUser(ModelAdmin, request, queryset) :
     Create exisiting user to superuser
     '''
     queryset.update(is_superuser=True)
+    queryset.update(is_staff=True)
 
 class CustomUserAdmin(UserAdmin) :
     model = UserAdmin
