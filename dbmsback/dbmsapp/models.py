@@ -81,7 +81,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
-    snu_id = models.CharField(max_length=5)
+    snu_id = models.CharField(max_length=5, unique=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -89,4 +89,21 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.email
+        name = self.first_name + " " + self.last_name
+        return name
+    
+    def get_id(self) :
+        return self.snu_id
+
+class Appointments(models.Model) :
+    patient = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    scheduled = models.ForeignKey(DoctorSchedule, on_delete=models.CASCADE)
+    comments = models.TextField(max_length=200)
+    date = models.DateField()
+
+    def __str__(self) :
+        string = self.patient + " has an appointment with " + self.doctor 
+        return string 
+    def snu_id(self) :
+        return self.patient.snu_id

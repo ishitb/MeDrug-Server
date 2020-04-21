@@ -1,11 +1,11 @@
 from django.shortcuts import render
 import csv,io
 from django.contrib import messages
-from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule
+from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, Appointments
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer
+from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer, AppointmentSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
@@ -69,6 +69,10 @@ class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
 class ScheduleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
     serializer_class = ScheduleSerializer
     queryset = DoctorSchedule.objects.all()
+
+class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+    serializer_class = AppointmentSerializer
+    queryset = Appointments.objects.all()
 
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
