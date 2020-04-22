@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'dbmsapp',
     'rest_framework.authtoken'
+    'import_export'
 ]
 
 AUTH_USER_MODEL = 'dbmsapp.CustomUser'
@@ -131,3 +132,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+IMPORT_EXPORT_USE_TRANSACTIONS = True
