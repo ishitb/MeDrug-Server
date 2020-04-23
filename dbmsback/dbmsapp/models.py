@@ -101,9 +101,10 @@ class Appointments(models.Model) :
     scheduled = models.ForeignKey(DoctorSchedule, on_delete=models.CASCADE)
     comments = models.TextField(max_length=200)
     date = models.DateField()
-
+    def snu_id(self) :
+        return self.patient.snu_id
+        
     def __str__(self) :
         string = self.patient + " has an appointment with " + self.doctor 
         return string 
-    def snu_id(self) :
-        return self.patient.snu_id
+    

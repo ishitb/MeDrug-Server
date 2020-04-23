@@ -1,5 +1,7 @@
 from django.shortcuts import render
 import csv,io
+from tablib import Dataset
+from .resources import *
 from django.contrib import messages
 from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, Appointments
 from rest_framework import generics, mixins, viewsets, status
@@ -199,11 +201,22 @@ def DoctorInfo(request):
     return render(request,template,context)
 
 def DoctorTimings(request):
-    template='doctor_timings.html'
+    template='doctor_info.html'
 
     prompt={
         'order':'Order of the CSV should be Time, Doctor Name'
     }
+    if request.method == 'POST':
+        person_resource = AppointmentResource()
+        dataset = Dataset()
+        new_persons = request.FILES['myfile']
+
+        imported_data = dataset.load(new_persons.read())
+        result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        if not result.has_errors():
+            person_resource.import_data(dataset, dry_run=False)  # Actually import now
+    
     if request.method =="GET":
         return render(request,template,prompt)
 
