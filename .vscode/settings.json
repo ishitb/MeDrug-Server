@@ -1,4 +1,5 @@
 {
     // "python.pythonPath": "C:\\Users\\jkin\\Anaconda3\\python.exe"
+    // "python.pythonPath": "C:\\Users\\jkin\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
     "python.pythonPath": "dbmsenv\\Scripts\\python.exe"
 }
