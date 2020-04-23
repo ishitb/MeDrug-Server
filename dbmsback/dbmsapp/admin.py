@@ -1,9 +1,17 @@
 from django.contrib import admin
-from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, Appointments
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from django.contrib import admin
+from .models import *
 from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 
+class AppointmentResource(resources.ModelResource):
+    class Meta:
+        model = Appointments
+
+ 
 class DoctorAdmin(admin.ModelAdmin) :
     search_fields = ['name', 'speciality']
     list_display = ('name', 'id', 'speciality', 'phone')
@@ -44,13 +52,23 @@ class CustomUserAdmin(UserAdmin) :
     ordering = ('email',)
     actions = (superUser, )
 
+class AppointmentAdmin(ImportExportModelAdmin):
+     resource_class = AppointmentResource
+     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']
+     list_display = ['patient', 'snu_id', 'doctor', 'scheduled', 'date']
+
+    
+
+
 class AppointmentsManager(admin.ModelAdmin) :
     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']
     list_display = ['patient', 'snu_id', 'doctor', 'scheduled', 'date']
+
+
 
 admin.site.register(Pharmacy, PharmacyAdmin)
 admin.site.register(Medicines, MedicinesAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(DoctorSchedule, ScheduleAdmin)
-admin.site.register(Appointments, AppointmentsManager)
+admin.site.register(Appointments, AppointmentAdmin)
