@@ -202,7 +202,7 @@ def DoctorTimings(request):
     template='doctor_timings.html'
 
     prompt={
-        'order':'Order of the CSV should be Time, Doctor Name'
+        'order':'Order of the CSV should be Time ,Doctor Name'
     }
     if request.method =="GET":
         return render(request,template,prompt)
