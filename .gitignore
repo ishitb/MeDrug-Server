@@ -9,3 +9,4 @@ dbmsback/dbmsapp/__pycache__/urls.cpython-38.pyc
 dbmsback/dbmsapp/__pycache__/views.cpython-36.pyc
 dbmsback/dbmsapp/__pycache__/views.cpython-38.pyc
 dbmsback/dbmsback/__pycache__/settings.cpython-38.pyc
+.vscode/settings.json
