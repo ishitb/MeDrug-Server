@@ -13,8 +13,8 @@ class Doctor(models.Model) :
     name = models.CharField(max_length=50)
     phone = models.IntegerField(null=True)
     speciality = models.CharField(max_length=25, default="General Physician")
-    picture = models.ImageField(null=True)
-    details = models.CharField(max_length=150)
+    picture = models.ImageField(null=True,blank = True)
+    details = models.CharField(max_length=150,blank = True)
 
     def __str__(self) :
         return self.name  
@@ -38,7 +38,7 @@ class Medicines(models.Model) :
     name = models.CharField(max_length=50)
     quantity = models.IntegerField()
     price = models.FloatField()
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True,blank = True)
 
     def __str__(self) :
         return self.name
@@ -80,7 +80,7 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
+    last_name = models.CharField(max_length=25,null=True)
     snu_id = models.CharField(max_length=5, unique=True)
 
     USERNAME_FIELD = 'email'
@@ -89,7 +89,8 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        name = self.first_name + " " + self.last_name
+        name = self.first_name 
+        # + " " + self.last_name
         return name
     
     def get_id(self) :
