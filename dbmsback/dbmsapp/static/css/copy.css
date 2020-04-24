@@ -4,15 +4,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    --primary: #00579B;
+    --primary: #012643;
     --secondary: #9BC0FF;
-    --green: #f00;
+    --green: #f0f;
     font-family: 'Nunito', sans-serif;
 }
 
 body {
     height: 88.3vh;
-    background: linear-gradient(to bottom right, var(--primary), var(--secondary)) no-repeat center 100%;
+    background: var(--primary);
 }
 
 /* NAVBAR */

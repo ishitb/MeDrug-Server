@@ -79,8 +79,6 @@ class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
 @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
-
-
 def Register(request, format=None):
     email = request.data.get('email')
     password = request.data.get('password')
@@ -100,14 +98,13 @@ def Register(request, format=None):
     # Generate Token for user
     token = Token.objects.create(user=user)
 
-    logged_in_user = CustomUser.objects.filter(email=user).values()[0]
+    logged_in_user = CustomUser.objects.filter(email=email).values()[0]
+    return Response({'token': token.key, 'user_data': logged_in_user}, status = status.HTTP_201_CREATED)
 
-    return Response(logged_in_user, status = status.HTTP_201_CREATED)
 
 @api_view(["POST"])
 @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
 @permission_classes((AllowAny,))
-
 def Login(request):
     email = request.data.get("email")
     password = request.data.get("password")
@@ -117,7 +114,7 @@ def Login(request):
         return Response({'error': 'Invalid Credentials', 'status': 'fail'})
     token, _ = Token.objects.get_or_create(user=user)
 
-    logged_in_user = CustomUser.objects.filter(email=user).values()[0]
+    logged_in_user = CustomUser.objects.filter(email=email).values()[0]
 
     # return Response({'token': token.key, 'status': 'success', 'user_data': {
     #     'email': logged_in_user.get('email'),

@@ -81,7 +81,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25,null=True)
-    snu_id = models.CharField(max_length=5, unique=True)
+    snu_id = models.CharField(max_length=5)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
