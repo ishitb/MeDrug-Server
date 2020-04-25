@@ -1,38 +1,113 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MeDrug</title>
-    
-    <link rel="stylesheet" href="{% static 'css/copy.css' %}">
-    
-</head>
-<body>
-    
+
+    <link rel="stylesheet" href="{% static 'css/copy.css' %}" />
+  </head>
+  <body>
     <nav>
-        <h1 id="brand">
-            MeDrugs
+      <div id="brand">
+        <img src="{% static '/logo-tr-2.png' %}" alt="logo" />
+        <h1>
+          MeDrug
         </h1>
-        <ul>
+      </div>
+      <div id="links">
+        <div id="main">
+          <h1>
+            LINKS
+          </h1>
+          <ul id="mainLinks">
+            <li><a href="http://127.0.0.1:8000/admin/">ADMIN SITE</a></li>
             <li>
-                HOME
+              <a href="http://127.0.0.1:8000/upload/">UPLOAD MEDICINES</a>
             </li>
             <li>
-                UPLOAD MEDICINES
+              <a href="http://127.0.0.1:8000/info/"
+                >UPLOAD NEW DOCTOR INFORMATION</a
+              >
             </li>
-        </ul>
+            <li>
+              <a href="http://127.0.0.1:8000/timings/"
+                >UPLOAD NEW DOCTOR SCHEDULE</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div id="api">
+          <h1>
+            LINKS FOR API CALLS
+          </h1>
+          <ul id="apiLinks">
+            <li>
+              <a href="http://127.0.0.1:8000/pharmacy/"
+                >MANIPULATE PHARMACY DATA</a
+              >
+            </li>
+            <li>
+              <a href="http://127.0.0.1:8000/medicines/"
+                >MANIPULATE MEDICINES DATA</a
+              >
+            </li>
+            <li>
+              <a href="http://127.0.0.1:8000/doctors/"
+                >MANIPULATE DOCTORS' DATA</a
+              >
+            </li>
+            <li>
+              <a href="http://127.0.0.1:8000/schedule/"
+                >MANIPULATE DOCTORS' SCHEDULE DATA</a
+              >
+            </li>
+            <li>
+              <a href="http://127.0.0.1:8000/appointment/"
+                >MANIPULATE APPOINTMENTS DATA</a
+              >
+            </li>
+            <li><a href="http://127.0.0.1:8000/register/">REGISTER API</a></li>
+            <li><a href="http://127.0.0.1:8000/login/">LOGIN API</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
+    <!-- <div id="break"></div> -->
     <div id="templates">
-        {% block body_block %}
-        {# Anything outside of this will be inherited if you use extend.#}
-        {% endblock %}
+      <div id="page">
+        {% block body_block %} {# Anything outside of this will be inherited if
+        you use extend.#} {% endblock %}
+      </div>
+      <div id="bg"></div>
     </div>
 
     <script type="text/javascript">
-        console.log("OH BHENCHO")
-    </script>
+      var upload = document.querySelector("#templates #page form .btn");
+      var inp = document.querySelector("#templates #page form .inp");
+      var interval;
+      var check = () => {
+        interval = setInterval(() => {
+          inp.value != "" ? fileAdded() : null;
+        }, 100);
+      };
+      upload.addEventListener("click", () => {
+        check();
+        inp.click();
+      });
 
-</body>
+      fileAdded = () => {
+        clearInterval(interval);
+        document
+          .querySelector("#templates #page form .upl")
+          .classList.add("showUpload");
+        document.querySelector("#templates #page form .file").innerHTML =
+          "Chosen File: " + inp.value;
+        document
+          .querySelector("#templates #page form .file")
+          .classList.add("showUpload");
+      };
+    </script>
+  </body>
 </html>

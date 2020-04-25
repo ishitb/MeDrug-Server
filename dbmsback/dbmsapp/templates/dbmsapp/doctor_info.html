@@ -1,17 +1,41 @@
-{% if messages %}
-    {% for messages in messages %}
-        <div>
-            <strong>{{message|safe}}</strong>
-        </div>
-    {% endfor %}
-{% else %}
-{{order}}
+<!DOCTYPE html>
+{% extends "base.html" %} {% block body_block %}
+
+<h1>
+  UPLOAD {{heading}}
+</h1>
+
+<div id="messages">
+  {% if messages %} {% for messages in messages %}
+  <p>
+    {{message|safe}}
+  </p>
+  {% endfor %} {% else %}
+</div>
+
+<h2>
+  Upload data in form of CSV File
+</h2>
+<div class="order">
+    <h2>
+      Order of CSV File :
+    </h2>
+    <div class="details">
+        {
+      <p>
+          {{order}}
+      </p>
+    }
+    </div>
+</div>
 <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label>Upload a file</label>
-    <br>
-    <input type="file" name="file">
-    <p>Only accepts CSV files</p>
-    <button type="submit">Upload</button>
+  {% csrf_token %}
+  <input type="file" class="inp"/>
+  <div class="btn">
+      Choose CSV File
+  </div>
+  <p class="file">
+  </p>
+  <button class="upl" type="submit">UPLOAD</button>
 </form>
-{% endif %}
+{% endif %} {% endblock %}

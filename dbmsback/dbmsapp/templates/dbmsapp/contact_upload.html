@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "base.html" %} {% block body_block %}
 
-    {% block body_block %}
+<h1>
+  UPLOAD {{heading}}
+</h1>
 
-        <h1>
-            UPLOAD NEW MEDICINES
-        </h1>
+<div id="messages">
+  {% if messages %} {% for messages in messages %}
+  <p>
+    {{message|safe}}
+  </p>
+  {% endfor %} {% else %}
+</div>
 
-        {% if messages %}
-            {% for messages in messages %}
-                <div>
-                    <strong>{{message|safe}}</strong>
-                </div>
-            {% endfor %}
-        {% else %}
-        <div class="details">
-            {{order}}.
-        </div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="input">
-                <label>Upload csv file</label>
-                <button> UPLOAD A FILE </button>
-                <input type="file">
-            </div>
-            <button type="submit">UPLOAD</button>
-        </form>
-        {% endif %}
-    {% endblock %}
+<h2>
+  Upload data in form of CSV File
+</h2>
+<div class="order">
+    <h2>
+      Order of CSV File :
+    </h2>
+    <div class="details">
+        {
+      <p>
+          {{order}}
+      </p>
+    }
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" class="inp"/>
+  <div class="btn">
+      Choose CSV File
+  </div>
+  <p class="file">
+  </p>
+  <button class="upl" type="submit">UPLOAD</button>
+</form>
+{% endif %} {% endblock %}

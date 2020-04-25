@@ -129,7 +129,8 @@ def contact_upload(request):
     template='contact_upload.html'
 
     prompt={
-        'order':'Order of the CSV should be category,name,quantity,price'
+        'order': 'Category, Name, Quantity, Price',
+        'heading': 'New Medicines'.upper()
     }
     if request.method =="GET":
         return render(request,template,prompt)
@@ -167,7 +168,8 @@ def DoctorInfo(request):
     template='doctor_info.html'
 
     prompt={
-        'order':'Order of the CSV should be Name, Phone ,Speciality,Picture,details'
+        'order':'Name, Phone , Speciality, Picture, Details',
+        'heading': "New Doctors' Info".upper()
     }
     if request.method =="GET":
         return render(request,template,prompt)
@@ -201,7 +203,8 @@ def DoctorTimings(request):
     template='doctor_info.html'
 
     prompt={
-        'order':'Order of the CSV should be Time, Doctor Name'
+        'order':'Time, Doctor Name',
+        'heading': "New Doctors' Schedule".upper()
     }
     if request.method == 'POST':
         person_resource = AppointmentResource()
