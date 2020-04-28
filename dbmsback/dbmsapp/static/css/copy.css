@@ -88,12 +88,20 @@ nav #links #main #mainLinks {
 nav #links #main #mainLinks li i,
 nav #links #api #apiLinks li i {
     color: var(--blue);
+    transition: all 0.7s;
 }
 
 nav #links #main #mainLinks li a {
     text-decoration: none;
     color: var(--blue);
     font-size: 1.5rem;
+}
+
+nav #links #main #mainLinks li:hover i,
+nav #links #api #apiLinks li:hover i  {
+    text-shadow: 
+        2px 2px 15px rgba(0, 0, 0, 0.7),
+        -1px -1px 13px var(--blue);
 }
 
 nav #links #api {
@@ -230,8 +238,9 @@ nav #links #api #apiLinks li a {
 }
 
 #templates #page form button[type="submit"]:hover {
-    color: var(--white);
-    background-color: var(--green);
+    box-shadow: 
+        8px 8px 15px rgba(0, 0, 0, 0.7),
+        -1px -1px 10px var(--green);
 }
 
 .showUpload {
@@ -263,8 +272,9 @@ nav #links #api #apiLinks li a {
 }
 
 #templates #page form .btn:hover {
-    color: var(--white);
-    background-color: var(--blue);
+    box-shadow: 
+        8px 8px 15px rgba(0, 0, 0, 0.7),
+        -1px -1px 10px var(--blue);
 }
 
 @media (max-width: 700px) {

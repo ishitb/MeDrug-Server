@@ -7,7 +7,7 @@ from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, App
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer, AppointmentSerializer
+from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer, AppointmentSerializer, UserSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
@@ -68,9 +68,24 @@ class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
 
-class ScheduleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
-    serializer_class = ScheduleSerializer
-    queryset = DoctorSchedule.objects.all()
+# class ScheduleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+#     serializer_class = ScheduleSerializer
+#     queryset = DoctorSchedule.objects.all()
+
+class ScheduleViewSet(viewsets.ViewSet) :
+    def retrieve(self, request, pk) :
+        schedule = DoctorSchedule.objects.filter(doctor=pk)
+        serializer = ScheduleSerializer(schedule, many=True)
+        print(pk)
+        return Response(serializer.data)
+
+class GetUser(viewsets.ViewSet) :
+    def list(self, request) :
+        users = CustomUser.objects.all()[::-1][0]
+        serializer = UserSerializer(users)
+        data = serializer.data
+        id = {"id": data["id"]}
+        return Response(data)
 
 class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
     serializer_class = AppointmentSerializer
