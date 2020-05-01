@@ -79,8 +79,8 @@ class CustomUserAdmin(ImportExportModelAdmin) :
 
 class AppointmentAdmin(ImportExportModelAdmin):
      resource_class = AppointmentResource
-     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']
-     list_display = ['patient', 'snu_id', 'doctor', 'scheduled', 'date']
+     search_fields = ['patient__first_name', 'scheduled__time']
+     list_display = ['patient', 'snu_id', 'scheduled', 'date']
 
 # class AppointmentsManager(admin.ModelAdmin) :
 #     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']

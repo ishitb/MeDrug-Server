@@ -100,18 +100,17 @@ class CustomUser(AbstractUser):
 
 class Appointments(models.Model) :
     patient = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     scheduled = models.ForeignKey(DoctorSchedule, on_delete=models.CASCADE)
     comments = models.TextField(max_length=200)
     date = models.DateField()
 
     class Meta :
-        unique_together = ('patient', 'doctor', 'scheduled', 'date')
+        unique_together = ('patient', 'scheduled', 'date')
 
     def snu_id(self) :
         return self.patient.snu_id
     def __str__(self) :
-        string = str(self.patient) + " has an appointment with " + str(self.doctor) + " on " + str(self.date)  + ", " + str(self.scheduled)
+        string = str(self.patient) + " has an appointment with "  + " on " + str(self.date)  + ", " + str(self.scheduled)
         # self.patient + " has an appointment with " + self.doctor 
         return string 
     
