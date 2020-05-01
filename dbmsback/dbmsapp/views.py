@@ -74,9 +74,12 @@ class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
 
 class ScheduleViewSet(viewsets.ViewSet) :
     def retrieve(self, request, pk) :
+
         schedule = DoctorSchedule.objects.filter(doctor=pk)
         serializer = ScheduleSerializer(schedule, many=True)
-        print(pk)
+        # print("-----------------------")
+        # print(pk)
+        # print("-----------------------")
         return Response(serializer.data)
 
 class GetUser(viewsets.ViewSet) :
@@ -87,9 +90,35 @@ class GetUser(viewsets.ViewSet) :
         id = {"id": data["id"]}
         return Response(data)
 
+@api_view(["GET"])
+@renderer_classes([BrowsableAPIRenderer, JSONRenderer])
+def userLogin(request, email, password):
+    print(email, password)
+    user = authenticate(email=email, password=password)
+    if not user :
+        return Response({"error": "User doesn't exist"})
+    currUser = CustomUser.objects.filter(email=email).values()[0]
+    return Response(currUser)
+    
+# class GetUser(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+#     serializer_class = UserSerializer
+#     queryset = Appointments.objects.all()
+    
+
 class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
     serializer_class = AppointmentSerializer
     queryset = Appointments.objects.all()
+
+# @api_view(["GET"])
+# @renderer_classes([BrowsableAPIRenderer, JSONRenderer])
+# def ScheduleViewSet(request, doctor) :
+#     schedules = DoctorSchedule.objects.filter(doctor=doctor)
+#     serializer = ScheduleSerializer(schedules, many=True)
+#     # data = serializer.data
+#     print("-----------------------")
+#     final = serializer.data
+#     print("-----------------------")
+#     return Response(final)
 
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
@@ -138,6 +167,26 @@ def Login(request):
     #     'snu_id': logged_in_user.get('snu_id')
     # }})
     return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
+
+
+# TRYING FOR LOGIN
+# import urllib.request, urllib.parse, urllib.error
+# import json
+# @api_view(["POST"])
+# @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
+# @permission_classes((AllowAny,))
+# def Login(request):
+#     email = request.data.get("email")
+#     password = request.data.get("password")
+
+#     user = authenticate(email=email, password=password)
+#     if not user:
+#         return Response({'error': 'Invalid Credentials', 'status': 'fail'})
+#     token, _ = Token.objects.get_or_create(user=user)
+
+#     logged_in_user = CustomUser.objects.filter(email=email).values()[0]
+
+#     # return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
 
 
 def contact_upload(request):
