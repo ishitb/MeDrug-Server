@@ -153,7 +153,8 @@ nav #links #api #apiLinks li a {
     width: 100%;
     height: 100%;
     z-index: -1;
-    filter: blur(0.4rem);
+    filter: blur(0.2rem);
+    /* background-color: rgba(0, 0, 0, 0.5); */
 }
 
 #templates #page {
@@ -251,6 +252,9 @@ nav #links #api #apiLinks li a {
     color: var(--red);
     font-size: 1.2rem;
     display: none;
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem;
 }
 
 #templates #page form input {
@@ -277,7 +281,9 @@ nav #links #api #apiLinks li a {
         -1px -1px 10px var(--blue);
 }
 
-@media (max-width: 700px) {
+
+
+@media (max-width: 1000px) {
     nav #brand {
         height: 10%;
     }
@@ -336,6 +342,7 @@ nav #links #api #apiLinks li a {
 
     .hide {
         display: none !important;
+        /* opacity: 0; */
     }
 
     nav .collapsed {
@@ -348,8 +355,9 @@ nav #links #api #apiLinks li a {
         color: var(--white);
         display: inline-block;
         position: absolute;
-        right: 1rem;
-        bottom: 1rem;
+        right: 5%;
+        bottom: 2.5%;
+        cursor: pointer;
     }
 
     #templates {
@@ -367,6 +375,7 @@ nav #links #api #apiLinks li a {
     #templates #page h2 {
         font-size: 1.5rem;
         width: 90%;
+        text-align: center;
         /* width: auto; */
     }
 

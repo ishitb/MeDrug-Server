@@ -61,7 +61,7 @@ def superUser(ImportExportModelAdmin, request, queryset) :
 class CustomUserAdmin(ImportExportModelAdmin) :
     resource_class = CustomUserResource
     model = UserAdmin
-    list_display = ('email', 'first_name', 'last_name', 'snu_id', 'is_staff',)
+    list_display = ('email', 'first_name', 'last_name', 'snu_id', 'is_staff', 'id')
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'snu_id')}),
@@ -80,7 +80,7 @@ class CustomUserAdmin(ImportExportModelAdmin) :
 class AppointmentAdmin(ImportExportModelAdmin):
      resource_class = AppointmentResource
      search_fields = ['patient__first_name', 'scheduled__time']
-     list_display = ['patient', 'snu_id', 'scheduled', 'date']
+     list_display = ['patient', 'snu_id', 'scheduled', 'date', 'docName']
 
 # class AppointmentsManager(admin.ModelAdmin) :
 #     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']
