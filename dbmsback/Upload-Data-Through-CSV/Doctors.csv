@@ -1,11 +1,9 @@
-﻿id,name,phone,speciality,picture,details
-1,Megha Agarwal,1234567890,Awesome Human,Screenshot_4.png,liu gigl
-2,Ishit Beswal,1234567890,General Physician,CA-Paper-Figure-8.JPG,MBBS from Udemy
-3,Dr Priyanka Chaudhary,1234567890,General Physician,CA-Paper-Figure-8.JPG,MBBS
-4,Dr. Susheel Shukla,1234567890,General Physician,CA-Paper-Figure-8.JPG,MBBS
-5,"Dr. Sameer Singh, PT",1234567890,Physiotherapy,CA-Paper-Figure-8.JPG,Bachelor Of Physiotherapy
-6, Tseyang Palzom,1234567890,Psychologist,CA-Paper-Figure-8.JPG,"Psychology
+id,name,phone,speciality,details
+1,Dr Amiya Banerjee,1234567890,Psychiatrist,"MBBS,DPM ,DM (Psychiatry)"
+2,Pankaj Suneja,1234567890,Psychologist,"Psychology
  "
-7,Pankaj Suneja,1234567890,Psychologist,CA-Paper-Figure-8.JPG,"Psychology
+3, Tseyang Palzom,1234567890,Psychologist,"Psychology
  "
-8,Dr Amiya Banerjee,1234567890,Psychiatrist,CA-Paper-Figure-8.JPG,"MBBS,DPM ,DM (Psychiatry)"
+4,"Dr. Sameer Singh, PT",1234567890,Physiotherapy,Bachelor Of Physiotherapy
+5,Dr. Susheel Shukla,1234567890,General Physician,MBBS
+6,Dr Priyanka Chaudhary,1234567890,General Physician,MBBS
