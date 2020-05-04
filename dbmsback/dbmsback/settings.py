@@ -138,3 +138,14 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = '/home/DevilIsh/DBMS-Backend/dbmsback/static'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 CORS_ORIGIN_ALLOW_ALL = True
+
+# AUTOMATED EMAIL
+import dbmsapp.email_pass as email_pass
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = email_pass.email
+EMAIL_HOST_PASSWORD = email_pass.password

@@ -25,6 +25,8 @@ class DoctorSchedule(models.Model) :
 
     def __str__(self) :
         return str(self.time + " - " + self.day)  
+    def getDoc(self) :
+        return self.doctor
 
 class Pharmacy(models.Model) :
     category = models.CharField(max_length=25)
@@ -110,7 +112,8 @@ class Appointments(models.Model) :
     def snu_id(self) :
         return self.patient.snu_id
     def __str__(self) :
-        string = str(self.patient) + " has an appointment with "  + " on " + str(self.date)  + ", " + str(self.scheduled)
+        string = str(self.patient) + " has an appointment with "  + " on " + str(self.date)  + ", " + str(self.scheduled) + " with " + str(self.scheduled.getDoc()) 
         # self.patient + " has an appointment with " + self.doctor 
         return string 
-    
+    def docName(self) :
+        return self.scheduled.getDoc()

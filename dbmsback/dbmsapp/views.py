@@ -74,9 +74,12 @@ class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
 
 class ScheduleViewSet(viewsets.ViewSet) :
     def retrieve(self, request, pk) :
+
         schedule = DoctorSchedule.objects.filter(doctor=pk)
         serializer = ScheduleSerializer(schedule, many=True)
-        print(pk)
+        # print("-----------------------")
+        # print(pk)
+        # print("-----------------------")
         return Response(serializer.data)
 
 class GetUser(viewsets.ViewSet) :
@@ -87,9 +90,86 @@ class GetUser(viewsets.ViewSet) :
         id = {"id": data["id"]}
         return Response(data)
 
-class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
-    serializer_class = AppointmentSerializer
-    queryset = Appointments.objects.all()
+@api_view(["GET"])
+@renderer_classes([BrowsableAPIRenderer, JSONRenderer])
+def userLogin(request, email, password):
+    print(email, password)
+    user = authenticate(email=email, password=password)
+    if not user :
+        return Response({"error": "User doesn't exist"})
+    currUser = CustomUser.objects.filter(email=email).values()[0]
+    return Response(currUser)
+    
+# class GetUser(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+#     serializer_class = UserSerializer
+#     queryset = Appointments.objects.all()
+    
+
+# class AppointmentViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
+#     serializer_class = AppointmentSerializer
+#     queryset = Appointments.objects.all()
+#     print("heyy there bro what up")
+
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+class AppointmentViewSet(viewsets.ViewSet) :
+    def list(self, request) :
+        category = Appointments.objects.all()
+        serializer = AppointmentSerializer(category, many=True)
+        return Response(serializer.data) 
+    
+    def create(self, request) :
+        serializer = AppointmentSerializer(data = request.data)
+
+        if serializer.is_valid() :
+            serializer.save()
+
+            # SEND AUTOMATED MAIL
+            user_email = CustomUser.objects.filter(id=request.data['patient']).values()[0]['email']
+            print(user_email)
+            send_mail("Appointmet with MeDrug", "Your appointment on " + str(request.data["date"]) + " is confirmed.", settings.EMAIL_HOST_USER, [user_email], fail_silently=False)
+
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None) :
+        queryset = Appointments.objects.all()
+        category = get_object_or_404(queryset, pk=pk)
+        serializer = AppointmentSerializer(category)
+        return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
+
+    def update(self, request, pk) :
+        queryset = Appointments.objects.all()
+        category = get_object_or_404(queryset, pk=pk) 
+        serializer = AppointmentSerializer(category, data = request)
+
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk) :
+        queryset = Appointments.objects.all()
+        article = get_object_or_404(queryset, pk=pk)
+        article.delete()
+        return Response(status = status.HTTP_202_ACCEPTED)
+
+
+
+
+# @api_view(["GET"])
+# @renderer_classes([BrowsableAPIRenderer, JSONRenderer])
+# def ScheduleViewSet(request, doctor) :
+#     schedules = DoctorSchedule.objects.filter(doctor=doctor)
+#     serializer = ScheduleSerializer(schedules, many=True)
+#     # data = serializer.data
+#     print("-----------------------")
+#     final = serializer.data
+#     print("-----------------------")
+#     return Response(final)
 
 # USER REGISTER AND LOGIN
 @api_view(["POST"])
@@ -117,6 +197,30 @@ def Register(request, format=None):
     return Response({'token': token.key, 'user_data': logged_in_user}, status = status.HTTP_201_CREATED)
 
 
+# @api_view(["POST"])
+# @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
+# @permission_classes((AllowAny,))
+# def Login(request):
+#     email = request.data.get("email")
+#     password = request.data.get("password")
+
+#     user = authenticate(email=email, password=password)
+#     if not user:
+#         return Response({'error': 'Invalid Credentials', 'status': 'fail'})
+#     token, _ = Token.objects.get_or_create(user=user)
+
+#     logged_in_user = CustomUser.objects.filter(email=email).values()[0]
+
+#     # return Response({'token': token.key, 'status': 'success', 'user_data': {
+#     #     'email': logged_in_user.get('email'),
+#     #     'first_name': logged_in_user.get('first_name'),
+#     #     'last_name': logged_in_user.get('last_name'),
+#     #     'snu_id': logged_in_user.get('snu_id')
+#     # }})
+#     return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
+
+
+# TRYING FOR LOGIN
 @api_view(["POST"])
 @renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
 @permission_classes((AllowAny,))
@@ -126,18 +230,12 @@ def Login(request):
 
     user = authenticate(email=email, password=password)
     if not user:
-        return Response({'error': 'Invalid Credentials', 'status': 'fail'})
+        return Response({"email": "Invalid Credentials", "password": str(-1)}, status = status.HTTP_400_BAD_REQUEST)
     token, _ = Token.objects.get_or_create(user=user)
 
     logged_in_user = CustomUser.objects.filter(email=email).values()[0]
-
-    # return Response({'token': token.key, 'status': 'success', 'user_data': {
-    #     'email': logged_in_user.get('email'),
-    #     'first_name': logged_in_user.get('first_name'),
-    #     'last_name': logged_in_user.get('last_name'),
-    #     'snu_id': logged_in_user.get('snu_id')
-    # }})
-    return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
+    return Response({"email": "success", "password": str(logged_in_user.get('id'))}, status = status.HTTP_202_ACCEPTED)
+    # return Response({'token': token.key, 'user_data': logged_in_user}, status=status.HTTP_202_ACCEPTED)
 
 
 def contact_upload(request):
