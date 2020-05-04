@@ -191,23 +191,21 @@ nav #links #api #apiLinks li a {
 
 #templates #page h2 {
     font-size: 2rem;
-    width: 70%;
     text-align: center;
     color: var(--white);
-    text-align: start;
     margin: 0.5rem 0;
     font-family: var(--comforta);
 }
 
 #templates #page .order {
-    width: 70%;
+    /* width: 70%; */
 }
 
 #templates #page .order .details {
     width: fit-content;
     color: var(--green);
     font-size: 1.5rem;
-    padding-left: 5%;
+    /* padding-left: 5%; */
     margin-bottom: 2rem;
     display: flex;
 }
@@ -401,5 +399,20 @@ nav #links #api #apiLinks li a {
 
     #templates #page form button[type="submit"] {
         width: 80%;
+    }
+}
+
+@media(max-width: 700px) {
+
+    nav #brand h1 {
+        font-size: 3rem;
+    }
+    
+    nav #brand img {
+        width: 12%;
+    }
+
+    nav #brand i {
+        bottom: 1.75%;
     }
 }

@@ -92,13 +92,10 @@ class GetUser(viewsets.ViewSet) :
 
 @api_view(["GET"])
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer])
-def userLogin(request, email, password):
-    print(email, password)
-    user = authenticate(email=email, password=password)
-    if not user :
-        return Response({"error": "User doesn't exist"})
-    currUser = CustomUser.objects.filter(email=email).values()[0]
-    return Response(currUser)
+def userLogin(request, email):
+    currUser = CustomUser.objects.filter(email=email).values()[0]['id']
+    print(currUser)
+    return Response({"id": currUser})
     
 # class GetUser(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
 #     serializer_class = UserSerializer
@@ -181,7 +178,8 @@ def Register(request, format=None):
     last_name = request.data.get('last_name')
     snu_id = request.data.get('snu_id')
     if CustomUser.objects.filter(email=email).exists() :
-        return Response({'status': 'User already exists'})
+        # return Response({'status': 'User already exists'})
+        return Response(status = status.HTTP_400_BAD_REQUEST)
     
     user = CustomUser.objects.create_user(email=email, password=password)
     
@@ -194,7 +192,8 @@ def Register(request, format=None):
     token = Token.objects.create(user=user)
 
     logged_in_user = CustomUser.objects.filter(email=email).values()[0]
-    return Response({'token': token.key, 'user_data': logged_in_user}, status = status.HTTP_201_CREATED)
+    # return Response({'token': token.key, 'user_data': logged_in_user}, status = status.HTTP_201_CREATED)
+    return Response(status = status.HTTP_201_CREATED)
 
 
 # @api_view(["POST"])

@@ -17,6 +17,6 @@ urlpatterns = [
     path('upload/',contact_upload),
     path('info/',DoctorInfo),
     path('timings/',DoctorTimings),
-    path('userlogin/<str:email>/<str:password>/', userLogin)
+    path('userlogin/<str:email>/', userLogin)
     # path('schedule/<int:doctor>/', ScheduleViewSet)
 ]
