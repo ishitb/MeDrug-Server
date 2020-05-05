@@ -72,15 +72,21 @@ class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
 #     serializer_class = ScheduleSerializer
 #     queryset = DoctorSchedule.objects.all()
 
-class ScheduleViewSet(viewsets.ViewSet) :
-    def retrieve(self, request, pk) :
+# class ScheduleViewSet(viewsets.ViewSet) :
+#     def retrieve(self, request, pk) :
 
-        schedule = DoctorSchedule.objects.filter(doctor=pk)
-        serializer = ScheduleSerializer(schedule, many=True)
-        # print("-----------------------")
-        # print(pk)
-        # print("-----------------------")
-        return Response(serializer.data)
+#         schedule = DoctorSchedule.objects.filter(doctor=pk)
+#         serializer = ScheduleSerializer(schedule, many=True)
+#         # print("-----------------------")
+#         # print(pk)
+#         # print("-----------------------")
+#         return Response(serializer.data)
+
+@api_view(["GET"])
+@renderer_classes([BrowsableAPIRenderer, JSONRenderer])
+def ScheduleViewSet(request, doctor, day) :
+    schedules = DoctorSchedule.objects.filter(doctor=doctor, day=day.capitalize()).values()
+    return Response(schedules)
 
 class GetUser(viewsets.ViewSet) :
     def list(self, request) :

@@ -27,6 +27,8 @@ class DoctorSchedule(models.Model) :
         return str(self.time + " - " + self.day)  
     def getDoc(self) :
         return self.doctor
+    def doctor_id(self) :
+        return self.doctor.id
 
 class Pharmacy(models.Model) :
     category = models.CharField(max_length=25)

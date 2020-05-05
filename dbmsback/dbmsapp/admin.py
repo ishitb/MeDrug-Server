@@ -39,7 +39,7 @@ class DoctorAdmin(ImportExportModelAdmin):
 
 class ScheduleAdmin(ImportExportModelAdmin) :
     resource_class = DoctorScheduleResource
-    list_display = ('time', 'doctor',)
+    list_display = ('time', 'id', 'doctor', 'doctor_id')
     search_fields = ('doctor__name',)
 
 class PharmacyAdmin(ImportExportModelAdmin) :
