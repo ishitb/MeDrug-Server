@@ -88,13 +88,13 @@ def ScheduleViewSet(request, doctor, day) :
     schedules = DoctorSchedule.objects.filter(doctor=doctor, day=day.capitalize()).values()
     return Response(schedules)
 
-class GetUser(viewsets.ViewSet) :
-    def list(self, request) :
-        users = CustomUser.objects.all()[::-1][0]
-        serializer = UserSerializer(users)
-        data = serializer.data
-        id = {"id": data["id"]}
-        return Response(data)
+# class GetUser(viewsets.ViewSet) :
+#     def list(self, request) :
+#         users = CustomUser.objects.all()[::-1][0]
+#         serializer = UserSerializer(users)
+#         data = serializer.data
+#         id = {"id": data["id"]}
+#         return Response(data)
 
 @api_view(["GET"])
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer])
@@ -356,3 +356,7 @@ def DoctorTimings(request):
     context = {}
 
     return render(request,template,context)
+
+def Home(request) :
+    template = 'home.html'
+    return render(request, template)

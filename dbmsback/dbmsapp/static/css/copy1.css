@@ -95,6 +95,7 @@ nav #links #main #mainLinks li a {
     text-decoration: none;
     color: var(--blue);
     font-size: 1.5rem;
+    transition: all 0.5s;
 }
 
 nav #links #main #mainLinks li:hover i,
@@ -102,6 +103,11 @@ nav #links #api #apiLinks li:hover i  {
     text-shadow: 
         2px 2px 15px rgba(0, 0, 0, 0.7),
         -1px -1px 13px var(--blue);
+}
+
+nav #links #main #mainLinks li:hover a,
+nav #links #api #apiLinks li:hover a {
+    padding-left: 1rem;
 }
 
 nav #links #api {
@@ -129,6 +135,7 @@ nav #links #api #apiLinks li a {
     text-decoration: none;
     color: var(--blue);
     font-size: 1.5rem;
+    transition: all 0.5s;
 }
 
 /* BREAK */
@@ -253,6 +260,7 @@ nav #links #api #apiLinks li a {
     font-weight: 700;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 0.5rem;
+    text-align: center;
 }
 
 #templates #page form input {
@@ -279,6 +287,29 @@ nav #links #api #apiLinks li a {
         -1px -1px 10px var(--blue);
 }
 
+#templates .home {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#templates .home .btn {
+    text-align: center;
+    border: 0.1rem solid var(--red);
+    color: var(--red);
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    cursor: pointer !important;
+    transition: all 0.7s;
+    text-decoration: none;
+}
+
+#templates .home .btn:hover {
+    box-shadow: 
+    8px 8px 15px rgba(0, 0, 0, 0.7),
+    -1px -1px 10px var(--red);
+}
 
 
 @media (max-width: 1000px) {

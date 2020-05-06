@@ -6,7 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MeDrug</title>
 
-        <link rel="stylesheet" href="{% static 'css/copy.css' %}" />
+        <link
+            rel="icon"
+            type="image/png"
+            href="../../static/logo-tr-2.png"
+        />
+
+        <link rel="stylesheet" href="{% static 'css/copy1.css' %}" />
     </head>
     <body>
         <nav>
@@ -25,25 +31,25 @@
                     <ul id="mainLinks">
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/admin/"
+                            <a href="/admin/"
                                 >ADMIN SITE</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/upload/"
+                            <a href="/upload/"
                                 >UPLOAD MEDICINES</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/info/"
+                            <a href="/info/"
                                 >UPLOAD NEW DOCTOR INFORMATION</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/timings/"
+                            <a href="/timings/"
                                 >UPLOAD NEW DOCTOR SCHEDULE</a
                             >
                         </li>
@@ -56,43 +62,43 @@
                     <ul id="apiLinks">
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/pharmacy/"
+                            <a href="/pharmacy/"
                                 >MANIPULATE PHARMACY DATA</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/medicines/"
+                            <a href="/medicines/"
                                 >MANIPULATE MEDICINES DATA</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/doctors/"
+                            <a href="/doctors/"
                                 >MANIPULATE DOCTORS' DATA</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/schedule/1/"
+                            <a href="/schedule/1/monday"
                                 >MANIPULATE DOCTORS' SCHEDULE DATA</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/appointment/"
+                            <a href="/appointment/"
                                 >MANIPULATE APPOINTMENTS DATA</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/register/"
+                            <a href="/register/"
                                 >REGISTER API</a
                             >
                         </li>
                         <li>
                             <i class="fas fa-link"></i>
-                            <a href="http://127.0.0.1:8000/login/">LOGIN API</a>
+                            <a href="/login/">LOGIN API</a>
                         </li>
                     </ul>
                 </div>
@@ -116,28 +122,30 @@
             var upload = document.querySelector("#templates #page form .btn");
             var inp = document.querySelector("#templates #page form .inp");
             var interval;
-            var check = () => {
-                interval = setInterval(() => {
-                    inp.value != "" ? fileAdded() : null;
-                }, 100);
-            };
-            upload.addEventListener("click", () => {
-                check();
-                inp.click();
-            });
+            if (upload) {
+                var check = () => {
+                    interval = setInterval(() => {
+                        inp.value != "" ? fileAdded() : null;
+                    }, 100);
+                };
+                upload.addEventListener("click", () => {
+                    check();
+                    inp.click();
+                });
 
-            fileAdded = () => {
-                clearInterval(interval);
-                document
-                    .querySelector("#templates #page form .upl")
-                    .classList.add("showUpload");
-                document.querySelector(
-                    "#templates #page form .file",
-                ).innerHTML = "Chosen File: " + inp.value;
-                document
-                    .querySelector("#templates #page form .file")
-                    .classList.add("showUpload");
-            };
+                fileAdded = () => {
+                    clearInterval(interval);
+                    document
+                        .querySelector("#templates #page form .upl")
+                        .classList.add("showUpload");
+                    document.querySelector(
+                        "#templates #page form .file",
+                    ).innerHTML = "Chosen File: " + inp.value;
+                    document
+                        .querySelector("#templates #page form .file")
+                        .classList.add("showUpload");
+                };
+            }
 
             // MOBILE VIEW
             var template = document.querySelector("#templates");
@@ -145,6 +153,7 @@
             var y = document.querySelector("nav #brand");
             var z = document.querySelector("nav #links");
             x.addEventListener("click", () => {
+                console.log("hey");
                 y.classList.toggle("collapsed");
                 template.classList.toggle("hide");
                 z.classList.toggle("hide");
