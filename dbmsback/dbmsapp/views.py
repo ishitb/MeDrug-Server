@@ -3,11 +3,11 @@ import csv,io
 from tablib import Dataset
 from .resources import *
 from django.contrib import messages
-from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, Appointments
+from .models import Medicines, Pharmacy, CustomUser, Doctor, DoctorSchedule, Appointments, Alerts
 from rest_framework import generics, mixins, viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer, AppointmentSerializer, UserSerializer
+from .serializers import MedicineSerializer, PharmacySerializer, DoctorSerializer, ScheduleSerializer, AppointmentSerializer, UserSerializer, AlertSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
@@ -67,6 +67,10 @@ class MedicineViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Cre
 class DoctorViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
+
+class AlertsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) : 
+    serializer_class = AlertSerializer
+    queryset = Alerts.objects.all()
 
 # class ScheduleViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin) :
 #     serializer_class = ScheduleSerializer
@@ -131,8 +135,9 @@ class AppointmentViewSet(viewsets.ViewSet) :
 
             # SEND AUTOMATED MAIL
             user_email = CustomUser.objects.filter(id=request.data['patient']).values()[0]['email']
-            print(user_email)
-            send_mail("Appointmet with MeDrug", "Your appointment on " + str(request.data["date"]) + " is confirmed.", settings.EMAIL_HOST_USER, [user_email], fail_silently=False)
+            schedule = DoctorSchedule.objects.filter(pk = serializer.data['scheduled']).values()[0]
+            doctor = Doctor.objects.filter(pk = schedule['doctor_id']).values()[0]['name']
+            send_mail("Appointment with MeDrug", "Your appointment on " + str(request.data["date"]) + ", " + str(schedule['day']) + " at " + str(schedule['time']) + " with " + str(doctor) + " is confirmed.", settings.EMAIL_HOST_USER, [user_email], fail_silently=False)
 
             return Response(serializer.data, status = status.HTTP_201_CREATED)
 
@@ -140,9 +145,16 @@ class AppointmentViewSet(viewsets.ViewSet) :
 
     def retrieve(self, request, pk=None) :
         queryset = Appointments.objects.all()
-        category = get_object_or_404(queryset, pk=pk)
-        serializer = AppointmentSerializer(category)
-        return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
+        category = Appointments.objects.filter(patient=pk).values()
+        dataSet = category
+        for data in dataSet :
+            schedule_id = data['scheduled_id']
+            schedule = DoctorSchedule.objects.filter(pk = schedule_id).values()[0]
+            doctor = Doctor.objects.filter(pk = schedule['doctor_id']).values()[0]['name']
+            time = schedule['time']
+            day = schedule['day']
+            data.update({'doctor': doctor, 'time': time, 'day': day})
+        return Response(dataSet, status = status.HTTP_202_ACCEPTED)
 
     def update(self, request, pk) :
         queryset = Appointments.objects.all()
@@ -360,3 +372,15 @@ def DoctorTimings(request):
 def Home(request) :
     template = 'home.html'
     return render(request, template)
+
+@api_view(["GET"])
+@renderer_classes([BrowsableAPIRenderer, AdminRenderer, JSONRenderer])
+def AppointmentsToSchedule(request, scheduled_id) :
+    schedule = DoctorSchedule.objects.filter(pk = scheduled_id).values()[0]
+    doctor = Doctor.objects.filter(pk = schedule['doctor_id']).values()[0]
+    data = {
+        'time': schedule['time'],
+        'day': schedule['day'],
+        'doctor_name': doctor['name']
+    }
+    return Response(data, status=status.HTTP_200_OK)

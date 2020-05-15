@@ -73,7 +73,7 @@ class CustomUserAdmin(ImportExportModelAdmin) :
             'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'snu_id')}
         ),
     )
-    search_fields = ('email',)
+    search_fields = ('email', 'id')
     ordering = ('email',)
     actions = (superUser, )
 
@@ -81,6 +81,12 @@ class AppointmentAdmin(ImportExportModelAdmin):
      resource_class = AppointmentResource
      search_fields = ['patient__first_name', 'scheduled__time']
      list_display = ['patient', 'snu_id', 'scheduled', 'date', 'docName']
+
+class AlertsAdmin(ImportExportModelAdmin) :
+    resource_class = Alerts
+    search_fields = ['title', ]
+    list_display = ['title', 'link']
+
 
 # class AppointmentsManager(admin.ModelAdmin) :
 #     search_fields = ['patient__first_name', 'doctor__name', 'scheduled__time']
@@ -94,3 +100,4 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(DoctorSchedule, ScheduleAdmin)
 admin.site.register(Appointments, AppointmentAdmin)
+admin.site.register(Alerts, AlertsAdmin)

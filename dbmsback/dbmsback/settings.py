@@ -149,3 +149,6 @@ EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 EMAIL_HOST_USER = email_pass.email
 EMAIL_HOST_PASSWORD = email_pass.password
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

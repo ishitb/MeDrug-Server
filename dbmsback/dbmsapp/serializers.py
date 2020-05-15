@@ -30,3 +30,8 @@ class UserSerializer(serializers.ModelSerializer) :
     class Meta :
         model = CustomUser
         fields = '__all__'
+
+class AlertSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Alerts
+        fields = '__all__'

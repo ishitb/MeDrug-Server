@@ -204,10 +204,6 @@ nav #links #api #apiLinks li a {
     font-family: var(--comforta);
 }
 
-#templates #page .order {
-    /* width: 70%; */
-}
-
 #templates #page .order .details {
     width: fit-content;
     color: var(--green);

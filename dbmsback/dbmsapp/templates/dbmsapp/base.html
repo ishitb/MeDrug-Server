@@ -13,12 +13,19 @@
         />
 
         <link rel="stylesheet" href="{% static 'css/copy1.css' %}" />
+
+        <style>
+            nav #brand .fas:hover {
+                color: #b93e3e;
+            }
+        </style>
+
     </head>
     <body>
         <nav>
             <div id="brand" class="collapsed">
                 <img src="{% static '/logo-tr-2.png' %}" alt="logo" />
-                <h1>
+                <h1 style="cursor: pointer;">
                     MeDrug
                 </h1>
                 <i class="fas fa-plus"></i>
@@ -119,6 +126,12 @@
         ></script>
 
         <script type="text/javascript">
+
+            var home = document.querySelector("nav #brand h1")
+            home.addEventListener("click", () => {
+                window.location.href = "https://devilish.pythonanywhere.com/"
+            })
+
             var upload = document.querySelector("#templates #page form .btn");
             var inp = document.querySelector("#templates #page form .inp");
             var interval;

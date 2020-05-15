@@ -85,7 +85,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25,null=True)
-    snu_id = models.CharField(max_length=5)
+    snu_id = models.CharField(max_length=5, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -93,7 +93,9 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        name = self.first_name + " " + self.last_name
+        if self.first_name is not None :
+            name = self.first_name + " " + self.last_name
+        else : name = "blank"
         return name
     
     def get_id(self) :
@@ -109,7 +111,7 @@ class Appointments(models.Model) :
     date = models.DateField()
 
     class Meta :
-        unique_together = ('patient', 'scheduled', 'date')
+        unique_together = ('scheduled', 'date')
 
     def snu_id(self) :
         return self.patient.snu_id
@@ -119,3 +121,13 @@ class Appointments(models.Model) :
         return string 
     def docName(self) :
         return self.scheduled.getDoc()
+
+class Alerts(models.Model) :
+    title = models.CharField(max_length=50, null = True)
+    by_line = models.CharField(max_length=100, null = True)
+    body = models.TextField(null = True)
+    link = models.CharField(null = True, max_length = 50)
+    image = models.ImageField(null = True, blank = True, upload_to = 'alertImages')
+
+    def __str__(self) :
+        return self.title
