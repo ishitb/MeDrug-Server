@@ -88,8 +88,18 @@ class AlertsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Creat
 
 @api_view(["GET"])
 @renderer_classes([BrowsableAPIRenderer, JSONRenderer])
-def ScheduleViewSet(request, doctor, day) :
+def ScheduleViewSet(request, doctor, day, date) :
     schedules = DoctorSchedule.objects.filter(doctor=doctor, day=day.capitalize()).values()
+    category = Appointments.objects.filter(date=date).values()
+    dataSet = category
+    booked = []
+    for data in dataSet :
+        booked.append(data['scheduled_id'])
+    for schedule in schedules :
+        if schedule['id'] in booked :
+            schedule.update({'slot_booked': True})
+        else :
+            schedule.update({'slot_booked': False})
     return Response(schedules)
 
 # class GetUser(viewsets.ViewSet) :
@@ -124,7 +134,7 @@ from django.conf import settings
 class AppointmentViewSet(viewsets.ViewSet) :
     def list(self, request) :
         category = Appointments.objects.all()
-        serializer = AppointmentSerializer(category, many=True)
+        serializer = AppointmentSerializer(category, many=True) 
         return Response(serializer.data) 
     
     def create(self, request) :
@@ -169,6 +179,14 @@ class AppointmentViewSet(viewsets.ViewSet) :
     def destroy(self, request, pk) :
         queryset = Appointments.objects.all()
         article = get_object_or_404(queryset, pk=pk)
+
+        # SEND DELETE EMAIL
+        data = Appointments.objects.filter(pk=pk).values()[0]
+        user_email = CustomUser.objects.filter(id=data['patient_id']).values()[0]['email']
+        schedule = DoctorSchedule.objects.filter(pk = data['scheduled_id']).values()[0]
+        doctor = Doctor.objects.filter(pk = schedule['doctor_id']).values()[0]['name']
+        send_mail("Cancellation of Appointment with MeDrug", "Your appointment on " + str(data["date"]) + ", " + str(schedule['day']) + " at " + str(schedule['time']) + " with " + str(doctor) + " is successfully cancelled.\nIf this was not you or there is some other problem please contect the front desk via our application.\nThank you.", settings.EMAIL_HOST_USER, [user_email], fail_silently=True)
+
         article.delete()
         return Response(status = status.HTTP_202_ACCEPTED)
 

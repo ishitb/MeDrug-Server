@@ -23,7 +23,7 @@ urlpatterns = [
     path('upload/',contact_upload),
     path('info/',DoctorInfo),
     path('timings/',DoctorTimings),
-    path('schedule/<int:doctor>/<str:day>/', ScheduleViewSet),
+    path('schedule/<int:doctor>/<str:day>/<str:date>/', ScheduleViewSet),
     path('userlogin/<str:email>/', userLogin),
     path('getScheduleData/<int:scheduled_id>', AppointmentsToSchedule)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
