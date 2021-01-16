@@ -40,14 +40,14 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer, AdminRe
 #         return Response(serializer.data, status = status.HTTP_202_ACCEPTED)
 
 #     def update(self, request, pk) :
-#         queryset = Pharmacy.object.all()
+#         queryset = Pharmacy.objects.all()
 #         category = get_object_or_404(queryset, pk=pk) 
 #         serializer = PharmacySerializer(category, data = request)
 
 #         if serializer.is_valid() :
 #             serializer.save()
 #             return Response(serializer.data, status = status.HTTP_201_CREATED)
-#         return Resposer(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     
 #     def destroy(self, request, pk) :
 #         queryset = Pharmacy.objects.all()
